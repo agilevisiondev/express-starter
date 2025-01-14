@@ -53,8 +53,21 @@ export const login = async (req: LoginRequest, res: Response) => {
       sameSite: "lax",
       secure: process.env.Node_ENV === "production",
     });
-
-    res.status(200).json({ status: true, message: "user successfully logged in" });
+    res.status(200).json({
+      message: "User Successfully logged in",
+      data: {
+        email: user.email,
+        firstName: user.firstName,
+        middleName: user.middleName,
+        lastName: user.lastName,
+        dateOfBirth: user.dateOfBirth,
+        bio: user.bio,
+        links: user.links,
+        font: user.font,
+        theme: user.theme,
+        activeModules: user.activeModules,
+      },
+    });
   } catch (error: any) {
     const errors = JSON.parse(error.message);
     res.status(400).json({ status: false, message: errors });
