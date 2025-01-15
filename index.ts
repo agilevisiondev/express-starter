@@ -6,7 +6,7 @@ const cors = require("cors");
 const entriesRouter = require("./src/routes/entries.route").default;
 const dotenv = require("dotenv");
 const userRouter = require("./src/routes/userRoute").default;
-// import userRouter from "./src/routes/userRoute";
+const eventRouter = require("./src/routes/eventRoute").default;
 
 dotenv.config();
 const app = express();
@@ -16,27 +16,28 @@ require("dotenv").config();
 app.use(cors());
 app.use(express.json());
 app.use(
- express.urlencoded({
-  extended: true,
- })
+  express.urlencoded({
+    extended: true,
+  }),
 );
 
 //connect database
 const mongoUri = process.env.MONGODB_URI;
 if (mongoUri) {
- mongoose.connect(mongoUri).catch((err: any) => console.log(err));
+  mongoose.connect(mongoUri).catch((err: any) => console.log(err));
 } else {
- console.error("MONGODB_URI is not defined in the environment variables");
+  console.error("MONGODB_URI is not defined in the environment variables");
 }
 
 app.get("/", (req: Request, res: Response) => {
- res.json({ message: "Hello World" });
+  res.json({ message: "Hello World" });
 });
 
 app.use("/entries", entriesRouter);
 app.use("/api/users", userRouter);
+app.use("/api/events", eventRouter);
 app.use("/static", express.static(path.join(__dirname, "public")));
 
 app.listen(port, () => {
- console.log(`Connected to DB and app listening on port ${port}`);
+  console.log(`Connected to DB and app listening on port ${port}`);
 });

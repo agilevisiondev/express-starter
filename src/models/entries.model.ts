@@ -19,7 +19,7 @@ const entrySchema = new Schema<IEntry>(
       default: Date.now,
     },
   },
-  { versionKey: false, autoIndex: true }
+  { versionKey: false, autoIndex: true },
 );
 
 export default model("Entry", entrySchema);
